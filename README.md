@@ -735,15 +735,3 @@ Updates candidate application stage along the hiring pipeline.
   "message": "Invalid status. Status must be one of: Applied, Under Review, Shortlisted, Rejected, Selected"
 }
 ```
-
----
-
-## Postman Collection Integration
-
-A ready-to-import Postman Collection with automated token saving and flow assertions is located in the project root:
-[`../Job_Portal_API.postman_collection.json`](../Job_Portal_API.postman_collection.json)
-
-1. Open Postman and click **Import**.
-2. Drag-and-drop `Job_Portal_API.postman_collection.json`.
-3. Collection variable `baseUrl` is pre-set to `http://localhost:5000/api`.
-4. Run **Register Candidate** or **Login Candidate** &rarr; the test script automatically extracts `token` and sets it for subsequent authenticated requests.
