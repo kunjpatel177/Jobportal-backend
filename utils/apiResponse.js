@@ -1,0 +1,22 @@
+/**
+ * Consistent API response helper
+ */
+const sendSuccess = (res, statusCode = 200, message = 'Operation successful', data = {}) => {
+  return res.status(statusCode).json({
+    success: true,
+    message,
+    data
+  });
+};
+
+const sendError = (res, statusCode = 500, message = 'Something went wrong') => {
+  return res.status(statusCode).json({
+    success: false,
+    message
+  });
+};
+
+module.exports = {
+  sendSuccess,
+  sendError
+};
