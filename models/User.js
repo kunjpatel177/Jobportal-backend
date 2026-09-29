@@ -24,6 +24,12 @@ const userSchema = new mongoose.Schema(
     resume: {
       type: String,
       default: ''
+    },
+    resumeData: {
+      data: Buffer,
+      contentType: String,
+      originalName: String,
+      size: Number
     }
   },
   {

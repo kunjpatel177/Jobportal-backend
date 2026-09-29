@@ -1,9 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const { uploadUserResume } = require('../controllers/userController');
+const {
+  uploadUserResume,
+  getCurrentUserResume,
+  getResumeById
+} = require('../controllers/userController');
 const { protect } = require('../middleware/authMiddleware');
 const uploadResume = require('../middleware/uploadMiddleware');
 
-router.post('/resume', protect, uploadResume.single('resume'), uploadUserResume);
+// Upload and fetch current candidate resume
+router
+  .route('/resume')
+  .post(protect, uploadResume.single('resume'), uploadUserResume)
+  .get(protect, getCurrentUserResume);
+
+// Stream resume document (accessible to browser new tab)
+router.get('/:id/resume', getResumeById);
+router.get('/:id/resume/:filename', getResumeById);
 
 module.exports = router;
