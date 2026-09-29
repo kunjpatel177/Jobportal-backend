@@ -176,6 +176,33 @@ The API base URL is: **`http://localhost:5000/api`**
 
 ---
 
+## Vercel Production Deployment & CORS Setup
+
+When deploying the backend to **Vercel** (`https://jobportal-backend-wheat.vercel.app`):
+
+### 1. Required Vercel Environment Variables
+In your Vercel Project Settings &rarr; **Environment Variables**, ensure the following keys are defined for Production, Preview, and Development:
+
+| Variable | Example Value | Description |
+| :--- | :--- | :--- |
+| `MONGO_URI` | `mongodb+srv://<user>:<password>@cluster0.xxx.mongodb.net/job_portal?retryWrites=true&w=majority` | MongoDB Atlas cluster connection string |
+| `JWT_SECRET` | `your_production_secret_key` | Secret key for signing JWT tokens |
+| `JWT_EXPIRES_IN` | `7d` | Token expiration duration |
+| `CLIENT_URL` | `https://jobportal-gamma-six.vercel.app` | Production frontend URL |
+
+### 2. MongoDB Atlas Network Access (Crucial)
+Vercel serverless functions execute on dynamic, rotating cloud IP addresses:
+1. Open your [MongoDB Atlas Dashboard](https://cloud.mongodb.com/).
+2. Navigate to **Security** &rarr; **Network Access**.
+3. Ensure IP address `0.0.0.0/0` (**Allow Access from Anywhere**) is added to the IP Access List.
+4. Without this, MongoDB Atlas will reject connections from Vercel lambdas, causing requests to hang and trigger CORS/timeout errors in the browser.
+
+### 3. Vercel Configuration Files
+- `backend/vercel.json`: Automatically applies Edge CORS headers (`Access-Control-Allow-Origin: https://jobportal-gamma-six.vercel.app`, `Access-Control-Allow-Credentials: true`) and routes `/api/(.*)` to the serverless function.
+- `backend/api/index.js`: Serverless function wrapper exporting the Express `app` instance.
+
+---
+
 ## Core Features & Business Logic
 
 ### Password Security Rules
